@@ -1,26 +1,22 @@
 from pydantic_settings import BaseSettings
-from typing import List
 import os
 
 
 class Settings(BaseSettings):
     """Настройки приложения, загружаемые из переменных окружения"""
     
-    # Database Configuration
     POSTGRES_HOST: str
     POSTGRES_PORT: int
     POSTGRES_USER: str
     POSTGRES_PASSWORD: str
     POSTGRES_DB: str
     
-    # JWT Configuration
     JWT_SECRET_KEY: str
     JWT_ALGORITHM: str = "HS256"
     JWT_ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
     
-    # Application Configuration
-    SERVICE_USERS_HOST: str = "localhost"
-    SERVICE_USERS_PORT: int = 8002
+    SERVICE_ORDERS_HOST: str = "localhost"
+    SERVICE_ORDERS_PORT: int = 8001
     
     @property
     def DATABASE_URL(self) -> str:
@@ -37,5 +33,4 @@ class Settings(BaseSettings):
         case_sensitive = True
 
 
-# Создаем глобальный экземпляр настроек
 settings = Settings()
