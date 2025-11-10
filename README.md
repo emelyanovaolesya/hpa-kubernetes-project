@@ -2,6 +2,27 @@
 
 Проект микросервисной архитектуры на FastAPI с API Gateway, JWT аутентификацией и единым форматом ответов.
 
+## 🐳 Быстрый старт с Docker (Рекомендуется)
+
+```bash
+# 1. Убедитесь, что .env файл настроен
+cp .env.example .env
+# Отредактируйте .env и установите JWT_SECRET_KEY
+
+# 2. Запустите все сервисы
+docker-compose up -d
+
+# 3. Проверьте статус
+docker-compose ps
+
+# 4. Откройте Swagger UI
+# http://localhost:8000/docs
+```
+
+**📚 Подробная документация:**
+- [Docker Deployment Guide](./DOCKER_GUIDE.md) - полное руководство по Docker
+- [Postman Tests](./POSTMAN_TESTS.md) - набор тестов для проверки API
+
 ## 🏗️ Архитектура проекта
 
 ```

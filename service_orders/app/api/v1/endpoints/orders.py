@@ -42,26 +42,6 @@ def create_order(
 
 
 @router.get(
-    "/{order_id}",
-    response_model=None,
-    status_code=status.HTTP_200_OK,
-    summary="Получить заказ по ID",
-    description="Возвращает информацию о заказе по его идентификатору"
-)
-def get_order(
-    order_id: str,
-    current_user: Dict = Depends(get_current_user),
-    db: Session = Depends(get_db)
-):
-    """
-    Получает заказ по ID с проверкой прав доступа.
-    """
-    order = OrderService.get_order_by_id(db, order_id, current_user["user_id"])
-    order_response = OrderResponse.model_validate(order)
-    return success_response(order_response.model_dump())
-
-
-@router.get(
     "/",
     response_model=None,
     status_code=status.HTTP_200_OK,
@@ -108,6 +88,27 @@ def get_user_orders(
     )
     
     return success_response(order_list_response.model_dump())
+
+
+
+@router.get(
+    "/{order_id}",
+    response_model=None,
+    status_code=status.HTTP_200_OK,
+    summary="Получить заказ по ID",
+    description="Возвращает информацию о заказе по его идентификатору"
+)
+def get_order(
+    order_id: str,
+    current_user: Dict = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """
+    Получает заказ по ID с проверкой прав доступа.
+    """
+    order = OrderService.get_order_by_id(db, order_id, current_user["user_id"])
+    order_response = OrderResponse.model_validate(order)
+    return success_response(order_response.model_dump())
 
 
 @router.put(
