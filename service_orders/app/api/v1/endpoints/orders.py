@@ -17,6 +17,13 @@ router = APIRouter()
     summary="Создать новый заказ",
     description="Создает новый заказ для текущего авторизованного пользователя"
 )
+@router.post(
+    "/create",
+    response_model=None,
+    status_code=status.HTTP_201_CREATED,
+    summary="Создать новый заказ",
+    description="Создает новый заказ для текущего авторизованного пользователя"
+)
 def create_order(
     order_data: OrderCreate,
     current_user: Dict = Depends(get_current_user),
@@ -56,6 +63,13 @@ def get_order(
 
 @router.get(
     "/",
+    response_model=None,
+    status_code=status.HTTP_200_OK,
+    summary="Получить список заказов текущего пользователя",
+    description="Возвращает список заказов с пагинацией, сортировкой и фильтрацией"
+)
+@router.get(
+    "/my",
     response_model=None,
     status_code=status.HTTP_200_OK,
     summary="Получить список заказов текущего пользователя",

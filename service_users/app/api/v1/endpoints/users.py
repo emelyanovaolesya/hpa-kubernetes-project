@@ -59,6 +59,13 @@ def update_current_profile(
     summary="Получить список всех пользователей (только для админов)",
     description="Возвращает список пользователей с пагинацией и фильтрацией"
 )
+@router.get(
+    "/all",
+    response_model=None,
+    status_code=status.HTTP_200_OK,
+    summary="Получить список всех пользователей (только для админов)",
+    description="Возвращает список пользователей с пагинацией и фильтрацией"
+)
 def get_users_list(
     page: int = Query(1, ge=1, description="Номер страницы"),
     size: int = Query(10, ge=1, le=100, description="Размер страницы"),
