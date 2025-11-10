@@ -1,4 +1,4 @@
-# Framework Practice 2 - Microservices Architecture
+# Микросервисная структура по управлению задачами
 
 Проект микросервисной архитектуры на FastAPI с API Gateway, JWT аутентификацией и единым форматом ответов.
 
