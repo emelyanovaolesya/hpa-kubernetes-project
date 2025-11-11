@@ -10,7 +10,7 @@ from app.config import settings
 
 
 app = FastAPI(
-    title="User Service API",
+    title="Сервис для взаимодействия с пользователями",
     description="Сервис управления пользователями с JWT аутентификацией",
     version="1.0.0",
 )
