@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-users
+  labels:
+    app: service-users
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: service-users
+  template:
+    metadata:
+      labels:
+        app: service-users
+    spec:
+      containers:
+      - name: users
+        image: service-users:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8002
+        env:
+        - name: POSTGRES_HOST
+          value: "postgres"
+        - name: POSTGRES_PORT
+          value: "5432"
+        - name: POSTGRES_USER
+          value: "postgres"
+        - name: POSTGRES_PASSWORD
+          value: "postgres"
+        - name: POSTGRES_DB
+          value: "FrameworkPrak2Bd"
+        - name: JWT_SECRET_KEY
+          value: "my-super-secret-key-12345"
+        - name: JWT_ALGORITHM
+          value: "HS256"
+        - name: JWT_ACCESS_TOKEN_EXPIRE_MINUTES
+          value: "30"
+        - name: SERVICE_USERS_HOST
+          value: "0.0.0.0"
+        - name: SERVICE_USERS_PORT
+          value: "8002"
+        resources:
+          requests:
+            cpu: 250m
+            memory: 100Mi
+          limits:
+            cpu: 1000m
+            memory: 120Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-users
+spec:
+  selector:
+    app: service-users
+  ports:
+  - port: 8002
+    targetPort: 8002
+  type: ClusterIP
