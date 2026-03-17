@@ -1,0 +1,29 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: service-users-restarts-alert
+  namespace: monitoring
+  labels:
+    app: kube-prometheus-stack
+    release: monitoring
+spec:
+  groups:
+  - name: service-users-restarts
+    interval: 30s
+    rules:
+    # Увеличение рестартов за последние 5 минут
+    - record: service_users:restarts:increase5m
+      expr: |
+        sum(increase(kube_pod_container_status_restarts_total{namespace="default", pod=~"service-users.*"}[5m])) by (pod)
+    
+    # Алерт, если за 5 минут было больше 2 рестартов
+    - alert: ServiceUsersTooManyRestarts
+      expr: |
+        service_users:restarts:increase5m > 2
+      for: 1m
+      labels:
+        severity: warning
+        service: service-users
+      annotations:
+        summary: "Pod service-users часто перезапускается"
+        description: "За последние 5 минут под {{ $labels.pod }} перезапускался {{ $value }} раз(а) (порог: 2)"

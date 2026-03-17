@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-orders
+  labels:
+    app: service-orders
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: service-orders
+  template:
+    metadata:
+      labels:
+        app: service-orders
+    spec:
+      containers:
+      - name: orders
+        image: service-orders:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8001
+        env:
+        - name: POSTGRES_HOST
+          value: "postgres"
+        - name: POSTGRES_PORT
+          value: "5432"
+        - name: POSTGRES_USER
+          value: "postgres"
+        - name: POSTGRES_PASSWORD
+          value: "postgres"
+        - name: POSTGRES_DB
+          value: "FrameworkPrak2Bd"
+        - name: JWT_SECRET_KEY
+          value: "my-super-secret-key-12345"
+        - name: JWT_ALGORITHM
+          value: "HS256"
+        - name: JWT_ACCESS_TOKEN_EXPIRE_MINUTES
+          value: "30"
+        - name: SERVICE_ORDERS_HOST
+          value: "0.0.0.0"
+        - name: SERVICE_ORDERS_PORT
+          value: "8001"
+        resources:
+          requests:
+            cpu: 100m
+            memory: 64Mi
+          limits:
+            cpu: 200m
+            memory: 128Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-orders
+spec:
+  selector:
+    app: service-orders
+  ports:
+  - port: 8001
+    targetPort: 8001
+  type: ClusterIP
